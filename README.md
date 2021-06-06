@@ -65,8 +65,8 @@ Data structure after running it:
 	
 To make the training work it is necessary that the train images and labels have same matrix size and same origin/direction, because the program extracts image patches with the
 SimpleITK functions (or take the all image if you set the same size). Also the augmentations are done with SimpleITK. By using the IXI-brain-Dataset, I registered all data to
-a reference image with a registration script in organize_folder_structure.py. It's not necessary that all source and target images are perfectly overlaid, the network will learn 
-anyway the distributions if the patch_size is large to have enough spatial information.
+a reference image with a registration script (Applied first Sobel and then affine registration) in organize_folder_structure.py. It's not necessary that all source and target 
+images are perfectly overlaid, the network will learn anyway the distributions if the patch_size is large to have enough spatial information.
 *******************************************************************************
 ### Training:
 - Modify the options to set the parameters and start the training/testing on the data. Read the descriptions for each parameter.
@@ -76,3 +76,14 @@ by loading them and setting the correspondent epoch.
 ### Inference:
 Launch "test.py" to test the network. Modify the parameters in the test_options parse section to select the path of image to infer and result. First you have to rename the weights "latest_net_GA" in:
 "latest_net_G" to go from images (T1) to labels (T2). Do the same with latest_net_GB to go in the opposite direction.
+
+Sample images: on the left side the T1, in the middle the T2_fake and the right side the T2
+
+![Image](images/T1.JPG)![result](images/T2_fake.JPG)![label](images/T2.JPG)
+
+*******************************************************************************
+### Tips:
+- Use and modify "check_loader_patches.py" to check the loader, try augmentations functions, padding, etc. and see and the patches fed during training. 
+- Adapt "Organize_folder_structure.py" depending on you trainig data, before starting the training. Check on 3DSlicer or ITKSnap if your data are correctly pre-processed and have same origin and size.
+- I noticed that ResNet works better for image translation and with MSEloss for the Discriminator. You can pick different networks from the Base_options.  
+
