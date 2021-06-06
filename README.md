@@ -4,6 +4,7 @@ Pytorch pipeline for 3D image domain translation using Cycle-Generative-Adversar
 *******************************************************************************
 ## Requirements
 We download the official MONAI DockerHub, with the latest MONAI version. Please visit https://docs.monai.io/en/latest/installation.html
+
 Additional packages can be installed with "pip install -r requirements.txt"
 *******************************************************************************
 ## Python scripts and their function
