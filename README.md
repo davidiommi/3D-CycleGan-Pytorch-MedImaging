@@ -1,6 +1,9 @@
 # 3D-CycleGan-Pytorch-Medical-Imaging-Translation
 
-Pytorch pipeline for 3D image domain translation using Cycle-Generative-Adversarial-networks, without paired examples.  
+Pytorch pipeline for 3D image domain translation using Cycle-Generative-Adversarial-networks, without paired examples. By writing this I took as reference:
+- https://github.com/gyhandy/Unpaired_MR_to_CT_Image_Synthesis 
+- https://github.com/pravinrav/CycleGAN3d
+
 *******************************************************************************
 ## Requirements
 We download the official MONAI DockerHub, with the latest MONAI version. Please visit https://docs.monai.io/en/latest/installation.html
@@ -18,6 +21,8 @@ Additional packages can be installed with "pip install -r requirements.txt"
 - options_folder/train_options.py: List of specific options used to train the network.
 
 - options_folder/test_options.py: List of options used to test the network.
+
+- utils_folder: contains the Nifti_Dataset Dataloader and augmentation functions to read and augment the data.
 
 - models_folder: the folder contains the scripts with the networks and the cycle-gan training architecture.
 
@@ -77,7 +82,7 @@ by loading them and setting the correspondent epoch.
 Launch "test.py" to test the network. Modify the parameters in the test_options parse section to select the path of image to infer and result. First you have to rename the weights "latest_net_GA" in:
 "latest_net_G" to go from images (T1) to labels (T2). Do the same with latest_net_GB to go in the opposite direction.
 
-Sample images: on the left side the T1, in the middle the T2_fake and the right side the T2
+Sample images: on the left side the T1, in the middle the T2_fake and the right side the T2 (epoch 100)
 
 ![Image](images/all.JPG)
 
@@ -85,5 +90,9 @@ Sample images: on the left side the T1, in the middle the T2_fake and the right 
 ### Tips:
 - Use and modify "check_loader_patches.py" to check the loader, try augmentations functions, padding, etc. and see and the patches fed during training. 
 - Adapt "Organize_folder_structure.py" depending on you trainig data, before starting the training. Check on 3DSlicer or ITKSnap if your data are correctly pre-processed and have same origin and size.
-- I noticed that ResNet works better for image translation and with MSEloss for the Discriminator. You can pick different networks from the Base_options.  
+- I noticed that ResNet works better for image translation and with MSEloss for the Discriminator. The difference is made by the ResNet modules. So you could write also a Unet, with ResNet layers. You can pick different networks from the Base_options. 
+- To have more accurate results it's necessary to have many epochs (200 minimum in my experience). I am trying also different losses for the generator (Correlation Coefficient like in https://github.com/gyhandy/Unpaired_MR_to_CT_Image_Synthesis) 
+to set a shape constrain between the starting/generated and label image. The loss to be modified in cycle_gan_model.py.  
+- We have a Nvidia-Tesla v100 available: in case you have no computational power you can reduce the image size by resampling the data and set a batch_size of 1.
+
 
