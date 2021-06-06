@@ -79,7 +79,7 @@ Launch "test.py" to test the network. Modify the parameters in the test_options 
 
 Sample images: on the left side the T1, in the middle the T2_fake and the right side the T2
 
-![Image](images/T1.JPG)![result](images/T2_fake.JPG)![label](images/T2.JPG)
+![Image](images/all.JPG)
 
 *******************************************************************************
 ### Tips:
